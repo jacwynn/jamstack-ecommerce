@@ -1,0 +1,44 @@
+[
+    {
+        "id": "space-jams",
+        "title": "Space Jams",
+        "price": 249.99,
+        "image": "/images/spacejams.jpeg"
+    },
+    {
+        "id": "breds",
+        "title": "Breds",
+        "price": 249.99,
+        "image": "/images/breds.jpeg"
+    },
+    {
+        "id": "concords",
+        "title": "Concords",
+        "price": 249.99,
+        "image": "/images/concords.jpeg"
+    },
+    {
+        "id": "heiress-black-stingray",
+        "title": "Heiress Black Stingray",
+        "price": 249.99,
+        "image": "/images/heiressblackstringray.jpeg"
+    },
+    {
+        "id": "gamma",
+        "title": "Gamma",
+        "price": 249.99,
+        "image": "/images/gamma.jpeg"
+    },
+    {
+        "id": "win-like-ninetysix",
+        "title": "Win Like 96",
+        "price": 249.99,
+        "image": "/images/winlike96.jpeg"
+    },
+    {
+        "id": "cool-greys",
+        "title": "Cool Greys",
+        "price": 249.99,
+        "image": "/images/coolgreys.jpeg"
+    }
+]
