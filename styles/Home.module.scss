@@ -8,3 +8,24 @@ $primary-color: darkblue;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 3em;
 }
+
+.colors {
+  h2 {
+    font-size: 1.25em;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    li {
+      margin-right: 1em;
+    }
+  }
+}
+
+.colorIsActive {
+  background-color: black !important; //figure out way to remove important tags
+  color: white !important; //figure out way to remove important tags
+}

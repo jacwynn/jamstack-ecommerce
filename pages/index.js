@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,10 +16,19 @@ import Button from '@components/Button';
 // styles
 import styles from '@styles/Home.module.scss';
 
-// data
-// import products from '@data/products';
+export default function Home({ products, colors }) {
+  const [activeColor, setactiveColor] = useState();
 
-export default function Home({ products }) {
+  let activeProducts = products;
+
+  if (activeColor) {
+    activeProducts = activeProducts.filter(({ colors }) => {
+      const colorIds = colors.map(({ slug }) => slug);
+      return colorIds.includes(activeColor);
+    })
+  }
+
+
   return (
     <Layout className={styles.container}>
       <Head>
@@ -28,9 +38,31 @@ export default function Home({ products }) {
 
       <Container>
         <h1>Air Jordan El3vens</h1>
-        <h2>Available Shoes</h2>
+        <div className={styles.colors}>
+          <h2>Filter by Color:</h2>
+          <ul>
+              <li>
+                <Button className={!activeColor && styles.colorIsActive} color="white" onClick={() => setactiveColor(undefined)}>View All</Button>
+              </li>
+              {
+                colors.map(color => {
+                  const isActive = color.slug === activeColor;
+                  let colorClassName;
+
+                  if (isActive) {
+                    colorClassName = styles.colorIsActive;
+                  }
+                  return (
+                    <li key={color.id}>
+                      <Button className={colorClassName} color="white" onClick={() => setactiveColor(color.slug)}>{color.name}</Button>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+        </div>
         <ul className={styles.productGrid}>
-          {products.map(product => {
+          {activeProducts.map(product => {
             const { featuredImage } = product;
             return (
               <li key={product.id}>
@@ -69,7 +101,7 @@ export async function getStaticProps() {
 
   const res = await client.query({
     query: gql`
-      query AllProducts {
+      query AllProductsAndColors {
         products {
           edges {
             node {
@@ -91,6 +123,24 @@ export async function getStaticProps() {
                   }
                 }
               }
+              colors {
+                edges {
+                  node {
+                    id
+                    name
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+        colors {
+          edges {
+            node {
+              id
+              name
+              slug
             }
           }
         }
@@ -104,15 +154,21 @@ export async function getStaticProps() {
       ...node.product,
       featuredImage: {
         ...node.featuredImage.node
-      }
+      },
+      colors: node.colors.edges.map(({ node }) => node)
     }
     return data;
   })
 
 
+
+  const colors = res.data.colors.edges.map(({ node }) => node)
+
+
   return {
     props: {
-      products
+      products,
+      colors
     }
   }
 }
