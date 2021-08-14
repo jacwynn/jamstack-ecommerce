@@ -20,7 +20,7 @@ const Header = () => {
                     <button className="snipcart-checkout">
                         <FaShoppingCart />
                         <span>
-                            ${subtotal}
+                            {subtotal ? `$${subtotal}` : ''}
                         </span>
                     </button>
                 </p>
