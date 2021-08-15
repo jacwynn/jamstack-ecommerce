@@ -1,10 +1,11 @@
-// Hooks
-import { useSnipcart } from '@hooks/use-snipcart';
 import Link from 'next/link';
 import Container from '@components/Container';
 import styles from './Header.module.scss';
 
 import { FaShoppingCart } from 'react-icons/fa';
+
+// Hooks
+import { useSnipcart } from '@hooks/use-snipcart';
 
 const Header = () => {
     const { cart = {} } = useSnipcart();

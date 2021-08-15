@@ -5,7 +5,7 @@ $primary-color: darkblue;
   padding: 0;
   margin: 3em 0 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 3em;
 }
 
@@ -18,9 +18,12 @@ $primary-color: darkblue;
     list-style: none;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     padding: 0;
+    margin-bottom: 0;
     li {
       margin-right: 1em;
+      margin-bottom: 1em;
     }
   }
 }
@@ -28,4 +31,32 @@ $primary-color: darkblue;
 .colorIsActive {
   background-color: black !important; //figure out way to remove important tags
   color: white !important; //figure out way to remove important tags
+}
+
+.discover {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column-reverse;
+
+  h2 {
+    font-size: 1.25em;
+  }
+
+  @media screen and (min-width: 768px) {
+    align-items: center;
+    flex-direction: row;  
+  }
+}
+
+.search {
+
+  input {
+    padding: 0.5em 0.6em;
+    background: none;
+    border: solid 2px black;
+    &:focus {
+      outline: none;
+      border: solid 2px red;
+    }
+  }
 }

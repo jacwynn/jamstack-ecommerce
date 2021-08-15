@@ -16,8 +16,12 @@ import Button from '@components/Button';
 // styles
 import styles from '@styles/Home.module.scss';
 
+// third-party components
+import Fuse from 'fuse.js';
+
 export default function Home({ products, colors }) {
   const [activeColor, setactiveColor] = useState();
+  const [query, setQuery] = useState();
 
   let activeProducts = products;
 
@@ -28,6 +32,23 @@ export default function Home({ products, colors }) {
     })
   }
 
+  const fuse = new Fuse(activeProducts, {
+    keys: [
+      'title',
+      'colors.name'
+    ]
+  });
+
+  if (query) {
+    const results = fuse.search(query);
+    console.log(results, 'results')
+    activeProducts = results.map(({item}) => item)
+  }
+
+  function handleSearch(event) {
+    const value = event.currentTarget.value;
+    setQuery(value);
+  }
 
   return (
     <Layout className={styles.container}>
@@ -38,29 +59,38 @@ export default function Home({ products, colors }) {
 
       <Container>
         <h1>Air Jordan El3vens</h1>
-        <div className={styles.colors}>
-          <h2>Filter by Color:</h2>
-          <ul>
-              <li>
-                <Button className={!activeColor && styles.colorIsActive} color="white" onClick={() => setactiveColor(undefined)}>View All</Button>
-              </li>
-              {
-                colors.map(color => {
-                  const isActive = color.slug === activeColor;
-                  let colorClassName;
+        <div className={styles.discover}>
+          <div className={styles.colors}>
+            <h2>Filter by Color:</h2>
+            <ul>
+                <li>
+                  <Button className={!activeColor && styles.colorIsActive} color="white" onClick={() => setactiveColor(undefined)}>View All</Button>
+                </li>
+                {
+                  colors.map(color => {
+                    const isActive = color.slug === activeColor;
+                    let colorClassName;
 
-                  if (isActive) {
-                    colorClassName = styles.colorIsActive;
-                  }
-                  return (
-                    <li key={color.id}>
-                      <Button className={colorClassName} color="white" onClick={() => setactiveColor(color.slug)}>{color.name}</Button>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-        </div>
+                    if (isActive) {
+                      colorClassName = styles.colorIsActive;
+                    }
+                    return (
+                      <li key={color.id}>
+                        <Button className={colorClassName} color="white" onClick={() => setactiveColor(color.slug)}>{color.name}</Button>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+          </div>
+          <div className={styles.search}>
+            <h2>Search</h2>
+            <form>
+              <input type="search" onChange={handleSearch} />
+            </form>
+          </div>
+        </div>  
+        
         <ul className={styles.productGrid}>
           {activeProducts.map(product => {
             const { featuredImage } = product;
